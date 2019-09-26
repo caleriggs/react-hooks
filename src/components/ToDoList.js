@@ -3,11 +3,12 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import Checkbox from '@material-ui/core/Checkbox';
-// import Typography from '@material-ui/core/Typography';
+import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import IconButton from '@material-ui/core/IconButton';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
 import DeleteIcon from '@material-ui/icons/Clear';
 
 
@@ -24,6 +25,10 @@ export default class ToDoList extends Component {
     this.editItemText = this.editItemText.bind(this);
     this.addItem = this.addItem.bind(this);
     this.deleteItem = this.deleteItem.bind(this);
+  }
+
+  componentDidMount() {
+    document.title = 'Get It Done!'
   }
 
   componentDidUpdate() {
@@ -90,42 +95,49 @@ export default class ToDoList extends Component {
     const { allItems, checked } = this.state;
     console.log('state', this.state)
     return (
-      <List>
-        {
-          allItems.map((item, index) =>
-            <ListItem>
-              <ListItemIcon>
-                <Checkbox
-                  edge="start"
-                  checked={checked.indexOf(index) !== -1}
-                  onClick={() => this.handleToggleCheckbox(index)}
+      <>
+        <AppBar position="static">
+          <Toolbar>
+            <Typography variant="h6">To Do List</Typography>
+          </Toolbar>
+        </AppBar>
+        <List>
+          {
+            allItems.map((item, index) =>
+              <ListItem>
+                <ListItemIcon>
+                  <Checkbox
+                    edge="start"
+                    checked={checked.indexOf(index) !== -1}
+                    onClick={() => this.handleToggleCheckbox(index)}
+                  />
+                </ListItemIcon>
+                <TextField
+                  fullWidth
+                  value={item}
+                  onChange={e => this.editItemText(e, index)}
+                  placeholder="Enter new task..."
+                  InputProps={{
+                    endAdornment: (
+                      <IconButton
+                        style={{ padding: 3 }}
+                        onClick={() => this.deleteItem(index)}
+                      >
+                        <DeleteIcon />
+                      </IconButton>
+                    )
+                  }}
                 />
-              </ListItemIcon>
-              <TextField
-                fullWidth
-                value={item}
-                onChange={e => this.editItemText(e, index)}
-                placeholder="Enter new task..."
-                InputProps={{
-                  endAdornment: (
-                    <IconButton
-                      style={{ padding: 3 }}
-                      onClick={() => this.deleteItem(index)}
-                    >
-                      <DeleteIcon />
-                    </IconButton>
-                  )
-                }}
-              />
-            </ListItem>
-          )
-        }
-        <ListItem>
-          <Button onClick={this.addItem}>
-            Add Item
+              </ListItem>
+            )
+          }
+          <ListItem>
+            <Button onClick={this.addItem} variant="contained">
+              Add Item
           </Button>
-        </ListItem>
-      </List>
+          </ListItem>
+        </List>
+      </>
     )
   }
 }

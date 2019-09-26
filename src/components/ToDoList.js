@@ -42,8 +42,6 @@ export default class ToDoList extends Component {
     const currentIndex = checked.indexOf(itemIndex);
     const newChecked = [...checked];
 
-    console.log({ itemIndex, checked, currentIndex, newChecked });
-
     if (currentIndex === -1) {
       newChecked.push(itemIndex)
     } else {
@@ -75,9 +73,9 @@ export default class ToDoList extends Component {
 
     console.log({ allItems, newItems });
 
-    return this.setState({
+    this.setState({
       allItems: newItems
-    }, () => console.log('state', this.state))
+    })
   }
 
   deleteItem(index) {
@@ -93,7 +91,6 @@ export default class ToDoList extends Component {
 
   render() {
     const { allItems, checked } = this.state;
-    console.log('state', this.state)
     return (
       <>
         <AppBar position="static">

@@ -75,19 +75,24 @@ function ToDoList() {
       <List>
         {
           allItems.map((item, index) =>
-            <ListItem>
+            <ListItem data-testid={`to-do-item-${item}`}>
               <ListItemIcon>
                 <Checkbox
                   edge="start"
+                  data-testid="to-do-checkbox"
                   checked={checked.indexOf(index) !== -1}
                   onClick={() => handleToggleCheckbox(index)}
                 />
               </ListItemIcon>
+              {console.log({ item })}
               <TextField
                 fullWidth
                 value={item}
                 onChange={e => editItemText(e, index)}
                 placeholder="Enter new task..."
+                inputProps={{
+                  'data-testid':`to-do-text-${item}`
+                }}
                 InputProps={{
                   endAdornment: (
                     <IconButton
@@ -103,7 +108,7 @@ function ToDoList() {
           )
         }
         <ListItem>
-          <Button onClick={addItem} variant="contained">
+          <Button onClick={addItem} variant="contained" data-testid="add-item">
             Add Item
           </Button>
         </ListItem>
